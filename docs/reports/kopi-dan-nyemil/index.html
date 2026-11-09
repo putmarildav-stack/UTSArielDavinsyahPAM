@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Laporan Pengujian E2E: Kopi dan Nyemil</title>
+<style>
+  :root { --espresso:#2C1A12; --orange:#E8734A; --cream:#FFF7EF; --muted:#8A7A6E; --line:#EADFD3; --green:#3E8E5A; --amber:#B05B18; --red:#B0432F; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--cream); color:#241812; font-family:"Segoe UI",system-ui,sans-serif; line-height:1.6; }
+  .wrap { max-width:980px; margin:0 auto; padding:36px 22px 70px; }
+  header { background:linear-gradient(135deg,#2C1A12,#4A2E1E); color:var(--cream); border-radius:18px; padding:30px 28px; }
+  header h1 { margin:0 0 6px; font-size:26px; }
+  header p { margin:0; color:#EBD9C9; }
+  h2 { color:var(--espresso); font-size:20px; margin:38px 0 4px; }
+  p.lead { color:var(--muted); margin:0 0 8px; }
+  table { width:100%; border-collapse:collapse; background:#fff; border-radius:12px; overflow:hidden; font-size:13.5px; margin-top:12px; box-shadow:0 1px 3px rgba(44,26,18,.06); }
+  th { background:var(--espresso); color:var(--cream); text-align:left; padding:9px 11px; }
+  td { padding:9px 11px; border-top:1px solid var(--line); vertical-align:top; }
+  tr:nth-child(even) td { background:#FDF8F2; }
+  .pill { display:inline-block; padding:2px 10px; border-radius:999px; font-size:11.5px; font-weight:700; white-space:nowrap; }
+  .pill.ok { background:#E4F1E8; color:var(--green); }
+  .pill.pending { background:#FCEFE4; color:var(--amber); }
+  .pill.no { background:#F7E5E0; color:var(--red); }
+  .card { background:#fff; border-radius:14px; padding:16px 18px; margin-top:12px; box-shadow:0 1px 3px rgba(44,26,18,.06); }
+  code { background:#F3E8DC; padding:1px 6px; border-radius:6px; font-size:12.5px; }
+  .shotgrid { display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:12px; margin-top:14px; }
+  .shot { background:#fff; border:2px dashed var(--line); border-radius:14px; padding:14px 10px; text-align:center; font-size:12.5px; color:var(--muted); }
+  .shot b { color:var(--espresso); display:block; margin-bottom:4px; font-size:13px; }
+  ul { margin:6px 0; padding-left:20px; }
+  li { margin:3px 0; }
+  footer { margin-top:40px; font-size:12px; color:var(--muted); text-align:center; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>Laporan Pengujian E2E: Aplikasi Kopi dan Nyemil</h1>
+  <p>Tugas UTS Pengembangan Aplikasi Mobile · M. Ariel Davinsyah Putra · NIM 1247050122 · Kelas B · 9 November 2026</p>
+</header>
+
+<h2>1. Ringkasan dan Status Verifikasi</h2>
+<p class="lead">Untuk pembaca non-teknis: aplikasi sudah selesai ditulis dan berhasil dibangun menjadi file APK (hasil akhir yang bisa dipasang di ponsel Android). Pengujian tampilan di emulator masih tertunda karena harddisk mesin kerja penuh, dijelaskan di bawah.</p>
+<table>
+  <tr><th>Item</th><th>Keterangan</th></tr>
+  <tr><td>Objek uji</td><td>APK debug <code>app-debug.apk</code> (6,3 MB) dari commit <code>f2fbb9d</code></td></tr>
+  <tr><td>Environment build</td><td>Windows + Gradle 9.1.0, AGP 8.13.2, Kotlin 2.4.21, JDK 17, compileSdk 36 (9 November 2026)</td></tr>
+  <tr><td>Hasil build</td><td><span class="pill ok">BUILD SUCCESSFUL</span> <code>gradlew.bat assembleDebug</code> selesai 4m35s, exit code 0</td></tr>
+  <tr><td>Audit keamanan</td><td><span class="pill ok">LULUS</span> tanpa temuan tinggi/sedang (detail ringkas di bagian 5)</td></tr>
+  <tr><td>Verifikasi visual (emulator)</td><td><span class="pill pending">TERHAMBAT</span> emulator gagal menyala: sisa ruang disk C: hanya 2,2 GB dari 237 GB (100% penuh), padahal image API 37 menuntut belasan GB untuk partisi data. Menunggu keputusan pemilik mesin (bersihkan disk atau sambungkan ponsel fisik)</td></tr>
+</table>
+
+<h2>2. Matriks Skenario Pengujian</h2>
+<p class="lead">Kolom "hasil aktual" ditulis apa adanya: yang sudah dibuktikan lewat build nyata ditandai hijau; yang butuh layar menyala ditandai oranye karena emulator belum bisa hidup.</p>
+
+<h3>2.1 Happy path (alur utama)</h3>
+<table>
+  <tr><th>#</th><th>Langkah / aksi</th><th>Expected</th><th>Hasil aktual</th><th>Cara verifikasi</th></tr>
+  <tr><td>1</td><td>Buka aplikasi (SplashActivity)</td><td>Logo kopi, judul "Kopi dan Nyemil", tagline, tombol "Start now"</td><td><span class="pill pending">Menunggu emulator</span></td><td>Screenshot 01 + klik tombol</td></tr>
+  <tr><td>2</td><td>Tekan "Start now" (atau tunggu 3 detik)</td><td>Pindah ke layar Sign up</td><td><span class="pill pending">Menunggu emulator</span></td><td>Screenshot 02</td></tr>
+  <tr><td>3</td><td>Sign up: tekan "Register"</td><td>Pindah ke layar Register</td><td><span class="pill pending">Menunggu emulator</span></td><td>Screenshot 04</td></tr>
+  <tr><td>4</td><td>Isi nama lengkap, username, password lalu tekan "Register"</td><td>Masuk Home, sapaan memakai nama lengkap, back stack dibersihkan</td><td><span class="pill pending">Menunggu emulator</span></td><td>Screenshot 05 + tombol back keluar aplikasi</td></tr>
+  <tr><td>5</td><td>Home: amati daftar menu</td><td>5 kartu menu sesuai wireframe lengkap dengan harga</td><td><span class="pill pending">Menunggu emulator</span></td><td>Screenshot 05 (5 item terlihat)</td></tr>
+  <tr><td>6</td><td>Alur Login (dari Sign up tekan "Login", isi field, tekan "Login")</td><td>Masuk Home dengan sapaan memakai username</td><td><span class="pill pending">Menunggu emulator</span></td><td>Screenshot 03</td></tr>
+  <tr><td>7</td><td>Tab Order: isi nama, alamat, patokan, tekan "Order dan Kirim"</td><td>Pindah ke Konfirmasi Pesanan</td><td><span class="pill pending">Menunggu emulator</span></td><td>Screenshot 07</td></tr>
+  <tr><td>8</td><td>Konfirmasi: periksa pesan sukses dan ringkasan alamat</td><td>Nama + alamat + patokan yang barusan diisi tampil di kartu ringkasan</td><td><span class="pill pending">Menunggu emulator</span></td><td>Screenshot 08</td></tr>
+  <tr><td>9</td><td>Tekan "Oke"</td><td>Kembali ke Home, tab Home aktif (bukan tab Order)</td><td><span class="pill pending">Menunggu emulator</span></td><td>Amati tab aktif setelah kembali</td></tr>
+  <tr><td>10</td><td>Tab Profile: ubah nama, tekan "Save"</td><td>Toast "Profil tersimpan", sapaan Home ikut berubah</td><td><span class="pill pending">Menunggu emulator</span></td><td>Screenshot 06 + cek sapaan Home</td></tr>
+</table>
+
+<h3>2.2 Negative path (validasi)</h3>
+<table>
+  <tr><th>#</th><th>Langkah / aksi</th><th>Expected</th><th>Hasil aktual</th><th>Cara verifikasi</th></tr>
+  <tr><td>N1</td><td>Login: tekan "Login" dengan semua field kosong</td><td>Error "Username wajib diisi" dan "Password wajib diisi", tetap di layar</td><td><span class="pill pending">Menunggu emulator</span></td><td>Screenshot layar error</td></tr>
+  <tr><td>N2</td><td>Register: tekan "Register" dengan salah satu field kosong</td><td>Error di field kosong, tidak masuk Home</td><td><span class="pill pending">Menunggu emulator</span></td><td>Screenshot layar error</td></tr>
+  <tr><td>N3</td><td>Order: tekan "Order dan Kirim" dengan field kosong</td><td>Error di ketiga field yang kosong, tidak lanjut konfirmasi</td><td><span class="pill pending">Menunggu emulator</span></td><td>Screenshot layar error</td></tr>
+  <tr><td>N4</td><td>Profile: kosongkan nama, tekan "Save"</td><td>Error "Nama wajib diisi", nama lama tetap dipakai</td><td><span class="pill pending">Menunggu emulator</span></td><td>Screenshot layar error</td></tr>
+  <tr><td>N5</td><td>Tekan tombol back fisik di layar Konfirmasi</td><td>Kembali ke aplikasi dengan tab Home aktif</td><td><span class="pill pending">Menunggu emulator</span></td><td>Amati tab aktif</td></tr>
+</table>
+
+<h3>2.3 Edge case</h3>
+<table>
+  <tr><th>#</th><th>Situasi</th><th>Expected</th><th>Hasil aktual</th><th>Cara verifikasi</th></tr>
+  <tr><td>E1</td><td>Nama 60 karakter</td><td>Sapaan membungkus rapi, layout tidak pecah</td><td><span class="pill pending">Menunggu emulator</span></td><td>Screenshot Home dengan nama panjang</td></tr>
+  <tr><td>E2</td><td>Rotasi layar saat mengisi form Order</td><td>Teks input bertahan (disimpan sistem), data sesi aman di object terpisah</td><td><span class="pill pending">Menunggu emulator</span></td><td>Rotasi via adb, screenshot</td></tr>
+  <tr><td>E3</td><td>Aplikasi ditutup total lalu dibuka</td><td>Sesi kembali ke awal (dibatasi desain: tanpa database sesuai ketentuan tugas)</td><td><span class="pill pending">Menunggu emulator</span></td><td>Kill + relaunch, screenshot</td></tr>
+</table>
+
+<h2>3. Screenshot Bukti</h2>
+<p class="lead">Semua screenshot di bawah adalah slot yang akan diisi begitu emulator bisa menyala. Tidak ada satu pun gambar yang dipalsukan atau digambar ulang sebagai pengganti tangkapan layar asli.</p>
+<div class="shotgrid">
+  <div class="shot"><b>01 Splash</b>docs/screenshots/01-splash.png</div>
+  <div class="shot"><b>02 Sign Up</b>docs/screenshots/02-signup.png</div>
+  <div class="shot"><b>03 Login</b>docs/screenshots/03-login.png</div>
+  <div class="shot"><b>04 Register</b>docs/screenshots/04-register.png</div>
+  <div class="shot"><b>05 Home</b>docs/screenshots/05-home.png</div>
+  <div class="shot"><b>06 Profile</b>docs/screenshots/06-profile.png</div>
+  <div class="shot"><b>07 Order/Alamat</b>docs/screenshots/07-order.png</div>
+  <div class="shot"><b>08 Konfirmasi</b>docs/screenshots/08-confirmation.png</div>
+</div>
+
+<h2>4. Katalog Regresi (bug yang pernah di-fix)</h2>
+<table>
+  <tr><th>Pemicu</th><th>Gejala</th><th>Root cause</th><td>Expected setelah fix</th><th>Cara reproduce (sebelum fix)</th></tr>
+  <tr>
+    <td>Build pertama <code>assembleDebug</code></td>
+    <td><code>BUILD FAILED</code> pada task <code>processDebugResources</code></td>
+    <td>Layout <code>activity_main.xml</code> memakai attribute <code>app:itemActiveIndicatorTint</code> yang tidak ada di Material Components; nama yang benar adalah styling lewat <code>itemActiveIndicatorStyle</code></td>
+    <td>Build lulus, tab aktif bottom nav tampil sebagai pil gelap</td>
+    <td><code>git checkout 710ac29 -- app/src/main/res/layout/activity_main.xml</code> lalu jalankan <code>gradlew.bat assembleDebug</code></td>
+  </tr>
+</table>
+
+<h2>5. Ringkasan Audit Keamanan</h2>
+<p class="lead">Audit penuh dijalankan oleh agent keamanan sebelum commit pertama. Ringkasannya:</p>
+<div class="card">
+  <ul>
+    <li><b>Tidak ada temuan tinggi maupun sedang.</b> Aplikasi tanpa izin (termasuk tanpa INTERNET), tanpa penyimpanan data, hanya SplashActivity yang exported (wajib sebagai launcher).</li>
+    <li><b>Bersih dari rahasia:</b> tidak ada API key/token/password yang tertanam; tidak ada path absolut mesin yang ikut ter-commit; <code>.github-account.md</code> (penunjuk akun lokal) terbukti ter-ignore lewat <code>git status --ignored</code>.</li>
+    <li><b>Dependency:</b> core-ktx 1.16.0, appcompat 1.7.0, material 1.12.0, constraintlayout 2.2.1 dicek terhadap CVE per November 2026, tidak ada yang menimpa. Plugin Kotlin dinaikkan ke 2.4.21 untuk menutup CVE-2026-53914 (build-time, severity rendah pada konteks lokal) dan terbukti build lulus.</li>
+    <li><b>Penguatan yang diterapkan:</b> <code>allowBackup=false</code>, pola <code>*.jks</code>/<code>*.keystore</code>/<code>keystore.properties</code> di .gitignore.</li>
+  </ul>
+</div>
+
+<h2>6. Coverage Matrix</h2>
+<table>
+  <tr><th>Layar / varian</th><th>Build</th><th>Audit kode</th><th>Verifikasi visual</th></tr>
+  <tr><td>1. Splash / Welcome</td><td><span class="pill ok">OK</span></td><td><span class="pill ok">OK</span></td><td><span class="pill pending">menunggu emulator</span></td></tr>
+  <tr><td>2. Sign Up</td><td><span class="pill ok">OK</span></td><td><span class="pill ok">OK</span></td><td><span class="pill pending">menunggu emulator</span></td></tr>
+  <tr><td>3. Login</td><td><span class="pill ok">OK</span></td><td><span class="pill ok">OK</span></td><td><span class="pill pending">menunggu emulator</span></td></tr>
+  <tr><td>4. Register</td><td><span class="pill ok">OK</span></td><td><span class="pill ok">OK</span></td><td><span class="pill pending">menunggu emulator</span></td></tr>
+  <tr><td>5. Home + 5 item menu</td><td><span class="pill ok">OK</span></td><td><span class="pill ok">OK</span></td><td><span class="pill pending">menunggu emulator</span></td></tr>
+  <tr><td>6. Profile</td><td><span class="pill ok">OK</span></td><td><span class="pill ok">OK</span></td><td><span class="pill pending">menunggu emulator</span></td></tr>
+  <tr><td>7. Alamat Pengiriman (Order)</td><td><span class="pill ok">OK</span></td><td><span class="pill ok">OK</span></td><td><span class="pill pending">menunggu emulator</span></td></tr>
+  <tr><td>8. Konfirmasi Pesanan</td><td><span class="pill ok">OK</span></td><td><span class="pill ok">OK</span></td><td><span class="pill pending">menunggu emulator</span></td></tr>
+  <tr><td>Bottom navigation 3 tab</td><td><span class="pill ok">OK</span></td><td><span class="pill ok">OK</span></td><td><span class="pill pending">menunggu emulator</span></td></tr>
+</table>
+
+<footer>Laporan ini hanya memuat klaim yang punya bukti. Bagian yang belum terverifikasi diberi tanda oranye secara eksplisit, tidak disamarkan. · 9 November 2026</footer>
+</div>
+</body>
+</html>
