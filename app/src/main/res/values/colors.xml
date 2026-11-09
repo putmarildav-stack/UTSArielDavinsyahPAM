@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Palet hangat kedai kopi -->
+    <color name="espresso">#2C1A12</color>
+    <color name="espresso_soft">#4A3226</color>
+    <color name="ink">#241812</color>
+    <color name="muted">#8A7A6E</color>
+    <color name="cream">#FFF7EF</color>
+    <color name="cream_dark">#FDF1E7</color>
+    <color name="white">#FFFFFF</color>
+    <color name="line">#EADFD3</color>
+    <color name="orange">#E8734A</color>
+    <color name="orange_soft">#F59E4C</color>
+    <color name="green">#3E8E5A</color>
+</resources>

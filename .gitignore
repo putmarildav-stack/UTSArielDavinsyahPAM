@@ -1,0 +1,24 @@
+# Gradle
+.gradle/
+build/
+app/build/
+
+# Android Studio / IntelliJ
+.idea/
+*.iml
+captures/
+.cxx/
+.kotlin/
+
+# File lokal
+local.properties
+.github-account.md
+
+# Kunci signing (jangan pernah masuk repo)
+*.jks
+*.keystore
+keystore.properties
+
+# Sistem
+.DS_Store
+Thumbs.db

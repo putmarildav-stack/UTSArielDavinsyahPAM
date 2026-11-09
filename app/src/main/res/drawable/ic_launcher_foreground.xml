@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Cup kopi putih di tengah, area aman adaptive icon 108dp -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Tutup cup -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M39,36 h30 l-2.4,6 h-25.2 z" />
+    <!-- Badan cup -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M42.5,46 h23 l-1.9,20.5 q-0.2,2.5 -2.8,2.5 h-10.6 q-2.6,0 -2.8,-2.5 z" />
+    <!-- Sleeve -->
+    <path
+        android:fillColor="#FFF7EF"
+        android:pathData="M43.6,54 h20.8 l-0.5,4 h-19.8 z" />
+</vector>

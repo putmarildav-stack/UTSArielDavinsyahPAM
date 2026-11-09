@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Design Brief: Aplikasi Kopi dan Nyemil</title>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+<style>
+  :root {
+    --espresso: #2C1A12;
+    --espresso-soft: #4A3226;
+    --orange: #E8734A;
+    --orange-soft: #F59E4C;
+    --cream: #FFF7EF;
+    --cream-2: #FDF1E7;
+    --green: #3E8E5A;
+    --ink: #241812;
+    --muted: #8A7A6E;
+    --card: #FFFFFF;
+    --line: #EADFD3;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--cream); color: var(--ink);
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    line-height: 1.65;
+  }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 40px 24px 80px; }
+  header.hero {
+    background: linear-gradient(135deg, var(--espresso) 0%, #4A2E1E 60%, #6B3F26 100%);
+    color: var(--cream); border-radius: 20px; padding: 36px 32px; margin-bottom: 36px;
+  }
+  header.hero .kicker { text-transform: uppercase; letter-spacing: 2px; font-size: 12px; color: var(--orange-soft); font-weight: 700; }
+  header.hero h1 { margin: 8px 0 6px; font-size: 32px; }
+  header.hero p { margin: 0; color: #EBD9C9; max-width: 640px; }
+  header.hero .meta { margin-top: 18px; font-size: 13px; color: #C9B29C; }
+  h2 { font-size: 22px; margin: 44px 0 6px; color: var(--espresso); }
+  h2 .num { color: var(--orange); margin-right: 8px; }
+  p.lead { color: var(--muted); margin-top: 0; }
+  section { border-top: 1px solid var(--line); padding-top: 8px; }
+  table { width: 100%; border-collapse: collapse; background: var(--card); border-radius: 12px; overflow: hidden; font-size: 14px; margin-top: 14px; box-shadow: 0 1px 3px rgba(44,26,18,.06); }
+  th { background: var(--espresso); color: var(--cream); text-align: left; padding: 10px 12px; font-weight: 600; }
+  td { padding: 10px 12px; border-top: 1px solid var(--line); vertical-align: top; }
+  tr:nth-child(even) td { background: #FDF8F2; }
+  .card { background: var(--card); border-radius: 14px; padding: 18px 20px; margin-top: 14px; box-shadow: 0 1px 3px rgba(44,26,18,.06); }
+  .card h3 { margin: 0 0 6px; font-size: 16px; color: var(--espresso); }
+  .pill { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; }
+  .pill.ok { background: #E4F1E8; color: var(--green); }
+  .pill.warn { background: #FCEFE4; color: #B05B18; }
+  .pill.no { background: #F7E5E0; color: #B0432F; }
+  .mockrow { display: flex; gap: 18px; flex-wrap: wrap; margin-top: 16px; }
+  .phone {
+    width: 210px; background: var(--cream-2); border: 2px solid var(--line);
+    border-radius: 26px; padding: 14px 12px 16px; font-size: 11px; flex-shrink: 0;
+  }
+  .phone .cap { text-align: center; font-size: 11px; font-weight: 700; color: var(--espresso); margin-bottom: 8px; }
+  .phone .screen { background: var(--cream); border-radius: 14px; padding: 12px 10px; min-height: 300px; display: flex; flex-direction: column; gap: 8px; }
+  .phone .greet { font-weight: 800; font-size: 13px; }
+  .phone .sub { color: var(--muted); font-size: 10px; }
+  .tile { display: flex; gap: 8px; background: #fff; border-radius: 12px; padding: 8px; align-items: center; box-shadow: 0 1px 2px rgba(44,26,18,.08); }
+  .tile .img { width: 42px; height: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+  .tile .name { font-weight: 700; font-size: 11px; }
+  .tile .desc { font-size: 9px; color: var(--muted); }
+  .tile .price { font-size: 10px; font-weight: 800; color: var(--orange); }
+  .btn { border-radius: 999px; padding: 8px 10px; text-align: center; font-weight: 800; font-size: 11px; }
+  .btn.dark { background: var(--espresso); color: var(--cream); }
+  .btn.ghost { border: 1.5px solid var(--espresso); color: var(--espresso); background: #fff; }
+  .field { background: #fff; border: 1.5px solid var(--line); border-radius: 10px; padding: 7px 9px; color: #9A8B7E; font-size: 10px; }
+  .fieldarea { background: #fff; border: 1.5px solid var(--line); border-radius: 10px; padding: 7px 9px; color: #9A8B7E; font-size: 10px; min-height: 34px; }
+  .circle { width: 54px; height: 54px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 900; margin: 6px auto; }
+  .logo-circle { width: 64px; height: 64px; border-radius: 50%; background: linear-gradient(135deg, var(--orange), var(--orange-soft)); display: flex; align-items: center; justify-content: center; font-size: 28px; margin: 10px auto 4px; }
+  .center { text-align: center; }
+  .tabbar { display: flex; margin-top: auto; background: #fff; border-radius: 12px; padding: 6px; }
+  .tab { flex: 1; text-align: center; font-size: 9px; padding: 5px 0; border-radius: 999px; color: var(--muted); }
+  .tab.active { background: var(--espresso); color: var(--cream); font-weight: 700; }
+  .mermaid { background: #fff; border-radius: 14px; padding: 16px; margin-top: 14px; box-shadow: 0 1px 3px rgba(44,26,18,.06); overflow-x: auto; }
+  ul.tight { margin: 8px 0; padding-left: 20px; }
+  ul.tight li { margin: 4px 0; }
+  code { background: #F3E8DC; padding: 1px 6px; border-radius: 6px; font-size: 13px; }
+  footer { margin-top: 48px; font-size: 12px; color: var(--muted); text-align: center; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="hero">
+  <div class="kicker">Design Brief · Tugas UTS Pengembangan Aplikasi Mobile</div>
+  <h1>Aplikasi Kopi dan Nyemil</h1>
+  <p>Aplikasi pemesanan kopi dan camilan untuk tugas UTS. Dibangun native Android dengan Kotlin, mengikuti wireframe delapan layar yang diberikan dosen, dengan tampilan yang dipoles agar lebih modern dan nyaman dipakai.</p>
+  <div class="meta">M. Ariel Davinsyah Putra · NIM 1247050122 · Kelas B · 9 November 2026 · Repo: putmarildav-stack/UTSArielDavinsyahPAM</div>
+</header>
+
+<section>
+  <h2><span class="num">1.</span>Ringkasan Fitur</h2>
+  <p class="lead">Untuk pembaca non-teknis: bagian ini menjawab "aplikasi ini untuk apa dan siapa yang butuh".</p>
+  <div class="card">
+    <h3>Masalah yang diselesaikan</h3>
+    <p>Tugas kuliah meminta implementasi wireframe "Kopi dan Nyemil", sebuah aplikasi pemesanan minuman kopi dan camilan. Sebelum tugas ini, wireframe hanya berupa gambar sketsa di atas kertas. Setelah selesai, wireframe itu menjadi aplikasi Android yang bisa di-install, dibuka, dan dijalani alurnya dari awal (splash) sampai akhir (konfirmasi pesanan).</p>
+  </div>
+  <div class="card">
+    <h3>Before vs After</h3>
+    <table>
+      <tr><th>Sisi</th><th>Before (wireframe)</th><th>After (aplikasi)</th></tr>
+      <tr><td>Bentuk</td><td>Sketsa 8 layar di kertas/jpg</td><td>Aplikasi Android native, bisa dijalankan di emulator dan ponsel</td></tr>
+      <tr><td>Tampilan</td><td>Garis hitam putih, placeholder "Foto"</td><td>Palet kopi hangat (espresso, oranye, krem), kartu rounded, tombol pill</td></tr>
+      <tr><td>Interaksi</td><td>Anak panah antar layar</td><td>Alur nyata: tombol bisa ditekan, form bisa diisi, validasi mencegah data kosong</td></tr>
+      <tr><td>Data</td><td>Tidak ada</td><td>Data statis (dummy): 5 item menu sesuai wireframe</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h3>Cakupan fitur (8 layar sesuai ketentuan tugas)</h3>
+    <ul class="tight">
+      <li>Splash / Welcome dengan logo, tagline, dan tombol "Start now"</li>
+      <li>Sign Up (layar pilihan awal) dengan tombol Register dan Login</li>
+      <li>Login (username, password)</li>
+      <li>Register (nama lengkap, username, password)</li>
+      <li>Home: sapaan "Halo, [nama]", daftar 5 menu makanan/minuman, bottom navigation</li>
+      <li>Profile: ubah nama profil, tombol Save</li>
+      <li>Alamat Pengiriman (tab Order): nama lengkap, alamat, patokan, tombol "Order dan Kirim"</li>
+      <li>Konfirmasi Pesanan: pesan sukses, ringkasan alamat, tombol "Oke"</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2><span class="num">2.</span>Keputusan Build dan Arsitektur</h2>
+  <p class="lead">Setiap persimpangan keputusan di bawah sudah dikunci. Alasannya dicatat supaya keputusan tidak perlu diperdebatkan ulang di tengah pengerjaan.</p>
+  <table>
+    <tr><th>Persimpangan</th><th>Keputusan</th><th>Alasan</th></tr>
+    <tr>
+      <td>Framework: Flutter vs Native Android</td>
+      <td><span class="pill ok">Native Kotlin</span></td>
+      <td>Materi kuliah PAM mengajarkan Android native (Kotlin, project "Empty Views Activity" di Android Studio). Pilihan lain (Flutter) sempat disiapkan lalu dibatalkan setelah dikonfirmasi ke pemilik tugas, supaya penilaian dosen tidak terganggu perbedaan teknologi.</td>
+    </tr>
+    <tr>
+      <td>UI: XML layout vs Jetpack Compose</td>
+      <td><span class="pill ok">XML layout + ViewBinding</span></td>
+      <td>Mengikuti gaya yang umum diajarkan di kelas (layout XML, Activity, Fragment). Compose adalah teknologi lebih baru yang belum tentu dipakai dosen di kelas.</td>
+    </tr>
+    <tr>
+      <td>Navigasi: banyak Activity vs satu Activity + Fragment</td>
+      <td><span class="pill ok">Kombinasi</span></td>
+      <td>Satu Activity per layar penuh (Splash, Signup, Login, Register, Konfirmasi) + satu MainActivity menampung 3 tab (Home, Order, Profile) lewat Fragment dan BottomNavigationView. Ini pola standar kuliah dan paling mudah dibaca dosen.</td>
+    </tr>
+    <tr>
+      <td>Data: database vs data statis</td>
+      <td><span class="pill ok">Data statis (dummy)</span></td>
+      <td>Ketentuan tugas menyatakan tidak perlu database. Data 5 menu disimpan dalam Kotlin object; data sesi pengguna (nama, alamat) disimpan di memori (object AppData) selama aplikasi hidup.</td>
+    </tr>
+    <tr>
+      <td>Gambar menu: file gambar vs emoji + gradasi warna</td>
+      <td><span class="pill ok">Emoji + gradasi</span></td>
+      <td>Tanpa file gambar binary, ukuran repo kecil, tidak ada isu lisensi foto, dan tetap tampak hidup. Wireframe aslinya memang hanya placeholder "Foto".</td>
+    </tr>
+    <tr>
+      <td>Versi SDK</td>
+      <td><span class="pill ok">minSdk 26 · target/compile 36</span></td>
+      <td>SDK platform 36 tersedia di mesin kerja; minSdk 26 mencakup hampir semua ponsel aktif dan memungkinkan adaptive icon tanpa file PNG.</td>
+    </tr>
+    <tr>
+      <td>Bottom navigation</td>
+      <td><span class="pill ok">Dipakai</span></td>
+      <td>Wireframe menggambarnya, ketentuan tugas menyebutnya opsional tapi tidak melarang. Tab aktif diberi latar gelap ala "black pill" di wireframe.</td>
+    </tr>
+    <tr>
+      <td>Urutan kirim: push dulu baru tes build</td>
+      <td><span class="pill ok">Push lebih dulu</span></td>
+      <td>Instruksi eksplisit pemilik tugas: source code didorong ke GitHub sebelum uji build, agar pekerjaan tidak hilang kalau build bermasalah.</td>
+    </tr>
+  </table>
+</section>
+
+<section>
+  <h2><span class="num">3.</span>Flow Diagram Alur Utama</h2>
+  <p class="lead">Dua alur inti: perjalanan pengguna baru dari splash sampai masuk Home, dan perjalanan memesan sampai konfirmasi. Teks di dalam tanda kutip sama persis dengan yang tampil di aplikasi.</p>
+
+  <div class="card"><h3>Alur 1: Masuk aplikasi (onboarding)</h3></div>
+  <div class="mermaid">
+flowchart TD
+  A["Splash / Welcome"] -->|tombol Start now atau otomatis 3 detik| B["Sign up"]
+  B -->|tombol Register| C["Register: isi nama lengkap, username, password"]
+  B -->|tombol Login| D["Login: isi username, password"]
+  C -->|"validasi lolos, nama tersimpan"| E["Home (tab Home aktif)"]
+  D -->|"validasi lolos"| E
+  E -->|tab Profile| F["Profile: ubah nama, Save"]
+  F -->|"nama tersimpan, sapaan ikut berubah"| E
+  </div>
+
+  <div class="card"><h3>Alur 2: Memesan (order)</h3></div>
+  <div class="mermaid">
+flowchart TD
+  A["Home"] -->|tab Order| B["Alamat Pengiriman"]
+  B --> C{"Semua field terisi? (nama, alamat, patokan)"}
+  C -->|tidak| D["Tampilkan pesan error di field yang kosong"]
+  D --> B
+  C -->|ya| E["Konfirmasi Pesanan"]
+  E -->|"tekan tombol Oke"| F["kembali ke Home, tab Home aktif"]
+  </div>
+</section>
+
+<section>
+  <h2><span class="num">4.</span>Peta Sistem dan Aktor</h2>
+  <p class="lead">Aplikasi ini berdiri sendiri tanpa server dan tanpa database, jadi peta sistemnya sederhana: satu aktor (calon pemesan) berinteraksi dengan 8 layar yang berbagi satu data di memori.</p>
+  <div class="mermaid">
+flowchart LR
+  User(["Pengguna (calon pemesan)"]) --> NAV["Navigasi layar"]
+  subgraph APP["Aplikasi Kopi dan Nyemil"]
+    NAV --> S1["Splash"]
+    NAV --> S2["Signup"]
+    NAV --> S3["Login"]
+    NAV --> S4["Register"]
+    NAV --> S5["Home (3 tab)"]
+    NAV --> S8["Konfirmasi"]
+    S5 --> S6["Tab Home: daftar menu"]
+    S5 --> S7["Tab Order: alamat"]
+    S5 --> S9["Tab Profile: nama"]
+  end
+  D1["AppData (memori): nama pengguna, alamat pesanan"] -.dibaca dan ditulis.- S5
+  D2["DummyData (statis): 5 item menu"] -.ditampilkan.- S6
+  </div>
+  <div class="card">
+    <h3>Keterangan aktor dan komponen</h3>
+    <ul class="tight">
+      <li><b>Pengguna</b>: mahasiswa/dosen yang menguji aplikasi. Tidak butuh akun sungguhan; login dan register menerima input apa pun yang tidak kosong karena tidak ada database.</li>
+      <li><b>AppData</b>: penyimpanan sementara di memori. Menyimpan nama (dipakai di sapaan "Halo, [nama]") dan alamat pesanan terakhir. Hilang saat aplikasi ditutup total, wajar untuk aplikasi dummy.</li>
+      <li><b>DummyData</b>: daftar tetap 5 menu: Kopi Susu Gula Aren Rp 22.000, Donat Cokelat Rp 12.000, Sourdough Loaf Rp 35.000, Cappuccino Rp 25.000, Matcha Latte Rp 27.000.</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2><span class="num">5.</span>Mockup Layar Kunci</h2>
+  <p class="lead">Pratinjau visual empat layar paling penting, digambar dengan HTML/CSS langsung. Warna dan bentuk di bawah adalah target yang dikejar implementasi (gradasi kopi hangat, kartu membulat, tombol pill).</p>
+  <div class="mockrow">
+    <div class="phone">
+      <div class="cap">1. Splash / Welcome</div>
+      <div class="screen">
+        <div class="logo-circle">☕</div>
+        <div class="center greet">Kopi dan Nyemil</div>
+        <div class="center sub">Get a taste of your wish</div>
+        <div style="margin-top:auto">
+          <div class="btn dark">Start now</div>
+        </div>
+      </div>
+    </div>
+    <div class="phone">
+      <div class="cap">5. Home</div>
+      <div class="screen">
+        <div class="greet">Halo, Ariel!</div>
+        <div class="sub" style="font-weight:700;color:var(--espresso)">Makanan</div>
+        <div class="tile"><div class="img" style="background:linear-gradient(135deg,#E8734A,#F59E4C)">☕</div><div style="flex:1"><div class="name">Kopi Susu Gula Aren</div><div class="desc">Espresso, susu, gula aren</div></div><div class="price">Rp 22.000</div></div>
+        <div class="tile"><div class="img" style="background:linear-gradient(135deg,#B05B18,#E8A44C)">🍩</div><div style="flex:1"><div class="name">Donat Cokelat</div><div class="desc">Donat empuk, glaze cokelat</div></div><div class="price">Rp 12.000</div></div>
+        <div class="tile"><div class="img" style="background:linear-gradient(135deg,#8A5A3B,#C08552)">🍞</div><div style="flex:1"><div class="name">Sourdough Loaf</div><div class="desc">Roti fermentasi alami</div></div><div class="price">Rp 35.000</div></div>
+        <div class="tabbar"><div class="tab active">Home</div><div class="tab">Order</div><div class="tab">Profile</div></div>
+      </div>
+    </div>
+    <div class="phone">
+      <div class="cap">7. Alamat Pengiriman</div>
+      <div class="screen">
+        <div class="greet">Alamat</div>
+        <div class="sub">Lengkapi data pengiriman pesananmu</div>
+        <div class="field">Nama Lengkap</div>
+        <div class="fieldarea">Alamat</div>
+        <div class="fieldarea">Patokan atau detail lengkap</div>
+        <div style="margin-top:auto"><div class="btn dark">Order dan Kirim</div></div>
+      </div>
+    </div>
+    <div class="phone">
+      <div class="cap">8. Konfirmasi Pesanan</div>
+      <div class="screen">
+        <div class="greet center">Halo, Ariel!</div>
+        <div class="circle" style="background:var(--green)">✓</div>
+        <div class="center sub">Terima kasih sudah memesan! Tunggu saja sebentar, kurir kami segera mengantarkan pesananmu.</div>
+        <div class="fieldarea"><b>Ringkasan:</b> nama dan alamat pengiriman</div>
+        <div style="margin-top:auto"><div class="btn dark">Oke</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2><span class="num">6.</span>Skenario Negatif dan Edge Case</h2>
+  <p class="lead">Aplikasi yang baik harus tahu diri saat pengguna mencoba hal yang tidak lengkap atau tidak wajar. Tabel ini adalah janji perilaku yang akan diuji satu per satu saat verifikasi.</p>
+  <table>
+    <tr><th>#</th><th>Situasi</th><th>Perilaku yang diharapkan</th><th>Status rencana</th></tr>
+    <tr><td>1</td><td>Login dengan username atau password kosong</td><td>Tombol tetap bisa ditekan, muncul pesan error di field kosong ("Username wajib diisi" / "Password wajib diisi"), tidak pindah layar</td><td><span class="pill ok">Dirancang</span></td></tr>
+    <tr><td>2</td><td>Register dengan salah satu field kosong</td><td>Error inline di field kosong, akun tidak dibuat, tetap di layar Register</td><td><span class="pill ok">Dirancang</span></td></tr>
+    <tr><td>3</td><td>Order dengan alamat kosong (nama, alamat, atau patokan)</td><td>Error inline di field kosong, tidak lanjut ke konfirmasi</td><td><span class="pill ok">Dirancang</span></td></tr>
+    <tr><td>4</td><td>Profile: nama dikosongkan lalu Save</td><td>Error "Nama wajib diisi", nama lama tetap dipakai</td><td><span class="pill ok">Dirancang</span></td></tr>
+    <tr><td>5</td><td>Tekan tombol back di Home</td><td>Keluar dari aplikasi (Home adalah dasar tumpukan layar setelah login; layar login/register sudah dibersihkan dari back stack)</td><td><span class="pill ok">Dirancang</span></td></tr>
+    <tr><td>6</td><td>Tekan back di Konfirmasi Pesanan</td><td>Kembali ke aplikasi dengan tab Home aktif, bukan ke form alamat (form sudah selesai dipakai)</td><td><span class="pill ok">Dirancang</span></td></tr>
+    <tr><td>7</td><td>Nama sangat panjang (misal 60 karakter)</td><td>Sapaan tetap rapi: teks bisa membungkus ke beberapa baris, layout tidak pecah</td><td><span class="pill ok">Dirancang</span></td></tr>
+    <tr><td>8</td><td>Rotasi layar saat mengisi form</td><td>Input yang sudah diketik tetap ada (disimpan otomatis oleh sistem), data sesi (nama) tetap aman karena disimpan di object terpisah</td><td><span class="pill warn">Akan diperiksa saat verifikasi</span></td></tr>
+    <tr><td>9</td><td>Aplikasi ditutup total lalu dibuka lagi</td><td>Data sesi kembali ke awal (contoh nama kembali ke nilai bawaan). Wajar untuk aplikasi dummy tanpa database; dicatat jelas di README</td><td><span class="pill warn">Known limitation</span></td></tr>
+  </table>
+</section>
+
+<section>
+  <h2><span class="num">7.</span>Titik Verifikasi Terbuka dan Langkah Berikutnya</h2>
+  <p class="lead">Hal-hal yang belum bisa dipastikan saat brief ini ditulis, beserta rencana menutupnya. Tidak ada yang menghalangi implementasi.</p>
+  <div class="card">
+    <ul class="tight">
+      <li><b>Build APK pertama.</b> Belum dijalankan saat brief ditulis. Rencana: <code>gradlew assembleDebug</code> dengan Gradle 9.1 (sudah ter-cache), AGP 8.13.2, Kotlin 2.3.21, JDK 17. Sesuai instruksi, source code didorong ke GitHub lebih dulu sebelum uji build.</li>
+      <li><b>Screenshot asli.</b> Menunggu aplikasi jadi dan emulator berjalan (system image API 37 tersedia di mesin). Screenshot dipakai di README dan laporan pengujian.</li>
+      <li><b>Perilaku emulator headless di mesin ini.</b> Akan dicoba saat sesi verifikasi; kalau emulator tidak mau hidup, verifikasi visual ditunda dan dilaporkan jujur, bukan diganti asumsi.</li>
+      <li><b>Pengumpulan tugas.</b> Link repo dikirim sesuai format kelas. Repo sudah diset publik atas instruksi pemilik tugas.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>Design brief ini dibuat otomatis sebagai bagian dari pengerjaan tugas · Diagram dirender dengan Mermaid 11 · Terakhir diperbarui 9 November 2026</footer>
+</div>
+
+<script>
+  mermaid.initialize({ startOnLoad: true, theme: "base", securityLevel: "loose",
+    themeVariables: { primaryColor: "#FDF1E7", primaryTextColor: "#241812", primaryBorderColor: "#2C1A12", lineColor: "#B08968", fontFamily: "Segoe UI, sans-serif", fontSize: "14px" } });
+</script>
+</body>
+</html>
