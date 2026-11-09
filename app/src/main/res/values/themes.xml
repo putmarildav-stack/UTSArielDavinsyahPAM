@@ -14,4 +14,8 @@
         <item name="android:navigationBarColor">@color/white</item>
         <item name="android:windowLightNavigationBar" tools:targetApi="27">true</item>
     </style>
+    <!-- Pil indikator tab aktif pada bottom navigation -->
+    <style name="Widget.Kopi.NavIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@color/espresso</item>
+    </style>
 </resources>
