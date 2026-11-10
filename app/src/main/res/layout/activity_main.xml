@@ -20,7 +20,7 @@
         app:itemActiveIndicatorStyle="@style/Widget.Kopi.NavIndicator"
         app:itemIconTint="@color/tab_item"
         app:itemRippleColor="@color/cream_dark"
-        app:itemTextColor="@color/tab_item"
+        app:itemTextColor="@color/tab_label"
         app:labelVisibilityMode="labeled"
         app:menu="@menu/bottom_nav" />
 </LinearLayout>

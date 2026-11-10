@@ -14,6 +14,7 @@
   header p { margin:0; color:#EBD9C9; }
   h2 { color:var(--espresso); font-size:20px; margin:38px 0 4px; }
   p.lead { color:var(--muted); margin:0 0 8px; }
+  .tablewrap { overflow-x:auto; }
   table { width:100%; border-collapse:collapse; background:#fff; border-radius:12px; overflow:hidden; font-size:13.5px; margin-top:12px; box-shadow:0 1px 3px rgba(44,26,18,.06); }
   th { background:var(--espresso); color:var(--cream); text-align:left; padding:9px 11px; }
   td { padding:9px 11px; border-top:1px solid var(--line); vertical-align:top; }
@@ -23,13 +24,18 @@
   .pill.pending { background:#FCEFE4; color:var(--amber); }
   .pill.no { background:#F7E5E0; color:var(--red); }
   .card { background:#fff; border-radius:14px; padding:16px 18px; margin-top:12px; box-shadow:0 1px 3px rgba(44,26,18,.06); }
-  code { background:#F3E8DC; padding:1px 6px; border-radius:6px; font-size:12.5px; }
-  .shotgrid { display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:12px; margin-top:14px; }
-  .shot { background:#fff; border:2px dashed var(--line); border-radius:14px; padding:14px 10px; text-align:center; font-size:12.5px; color:var(--muted); }
-  .shot b { color:var(--espresso); display:block; margin-bottom:4px; font-size:13px; }
+  code { background:#F3E8DC; padding:1px 6px; border-radius:6px; font-size:12.5px; word-break:break-word; }
+  .shotgrid { display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:14px; margin-top:14px; }
+  figure.shot { margin:0; background:#fff; border:1px solid var(--line); border-radius:14px; padding:10px; text-align:center; font-size:12.5px; color:var(--muted); }
+  figure.shot img { width:100%; height:auto; border-radius:8px; display:block; }
+  figure.shot.wide { grid-column:span 2; }
+  figure.shot figcaption { margin-top:8px; }
+  figure.shot figcaption b { color:var(--espresso); display:block; font-size:13px; }
+  a { color:var(--amber); }
   ul { margin:6px 0; padding-left:20px; }
   li { margin:3px 0; }
   footer { margin-top:40px; font-size:12px; color:var(--muted); text-align:center; }
+  @media (max-width:480px) { .shotgrid { grid-template-columns:1fr 1fr; } }
 </style>
 </head>
 <body>
@@ -37,107 +43,153 @@
 
 <header>
   <h1>Laporan Pengujian E2E: Aplikasi Kopi dan Nyemil</h1>
-  <p>Tugas UTS Pengembangan Aplikasi Mobile · M. Ariel Davinsyah Putra · NIM 1247050122 · Kelas B · 9 November 2026</p>
+  <p>Tugas UTS Pengembangan Aplikasi Mobile · M. Ariel Davinsyah Putra · NIM 1247050122 · Kelas B · diperbarui 10 November 2026</p>
 </header>
 
 <h2>1. Ringkasan dan Status Verifikasi</h2>
-<p class="lead">Untuk pembaca non-teknis: aplikasi sudah selesai ditulis dan berhasil dibangun menjadi file APK (hasil akhir yang bisa dipasang di ponsel Android). Pengujian tampilan di emulator masih tertunda karena harddisk mesin kerja penuh, dijelaskan di bawah.</p>
-<table>
+<p class="lead">Untuk pembaca non-teknis: aplikasi sudah diuji langsung di ponsel Android sungguhan. Semua 8 layar tampil dan berfungsi. Pengujian menemukan dua masalah tampilan, keduanya sudah diperbaiki dan diuji ulang di ponsel yang sama.</p>
+<div class="tablewrap"><table>
   <tr><th>Item</th><th>Keterangan</th></tr>
-  <tr><td>Objek uji</td><td>APK debug <code>app-debug.apk</code> (6,3 MB) dari commit <code>f2fbb9d</code></td></tr>
-  <tr><td>Environment build</td><td>Windows + Gradle 9.1.0, AGP 8.13.2, Kotlin 2.4.21, JDK 17, compileSdk 36 (9 November 2026)</td></tr>
-  <tr><td>Hasil build</td><td><span class="pill ok">BUILD SUCCESSFUL</span> <code>gradlew.bat assembleDebug</code> selesai 4m35s, exit code 0</td></tr>
-  <tr><td>Audit keamanan</td><td><span class="pill ok">LULUS</span> tanpa temuan tinggi/sedang (detail ringkas di bagian 5)</td></tr>
-  <tr><td>Verifikasi visual (emulator)</td><td><span class="pill pending">TERHAMBAT</span> emulator gagal menyala: sisa ruang disk C: hanya 2,2 GB dari 237 GB (100% penuh), padahal image API 37 menuntut belasan GB untuk partisi data. Menunggu keputusan pemilik mesin (bersihkan disk atau sambungkan ponsel fisik)</td></tr>
-</table>
+  <tr><td>Perangkat uji</td><td>Ponsel fisik TECNO LG7n, Android 12, layar 720 x 1640, lewat USB debugging (<code>adb</code>)</td></tr>
+  <tr><td>Objek uji</td><td>APK debug <code>app-debug.apk</code> dari branch <code>docs/screenshots-8-layar</code> (sudah memuat dua perbaikan di bagian 4)</td></tr>
+  <tr><td>Hasil build</td><td><span class="pill ok">BUILD SUCCESSFUL</span> <code>gradlew.bat assembleDebug</code> selesai 1m49s, exit code 0 (10 November 2026)</td></tr>
+  <tr><td>Verifikasi visual</td><td><span class="pill ok">LULUS</span> 10 happy path, 5 negative path, 3 edge case. Semua dijalankan dengan tap dan ketik nyata di ponsel, posisi layar dicek lewat <code>uiautomator dump</code> dan <code>dumpsys activity</code></td></tr>
+  <tr><td>Bug ditemukan</td><td>2 (rotasi layar membuat isi tab tidak cocok, label tab aktif tidak terbaca). Keduanya <span class="pill ok">FIXED</span></td></tr>
+  <tr><td>Audit keamanan</td><td>Lihat bagian 5</td></tr>
+</table></div>
 
 <h2>2. Matriks Skenario Pengujian</h2>
-<p class="lead">Kolom "hasil aktual" ditulis apa adanya: yang sudah dibuktikan lewat build nyata ditandai hijau; yang butuh layar menyala ditandai oranye karena emulator belum bisa hidup.</p>
+<p class="lead">Data uji memakai nama dan alamat dummy. Kolom "cara verifikasi" menyebut bukti yang bisa dibuka di bagian 3.</p>
 
 <h3>2.1 Happy path (alur utama)</h3>
-<table>
+<div class="tablewrap"><table>
   <tr><th>#</th><th>Langkah / aksi</th><th>Expected</th><th>Hasil aktual</th><th>Cara verifikasi</th></tr>
-  <tr><td>1</td><td>Buka aplikasi (SplashActivity)</td><td>Logo kopi, judul "Kopi dan Nyemil", tagline, tombol "Start now"</td><td><span class="pill pending">Menunggu emulator</span></td><td>Screenshot 01 + klik tombol</td></tr>
-  <tr><td>2</td><td>Tekan "Start now" (atau tunggu 3 detik)</td><td>Pindah ke layar Sign up</td><td><span class="pill pending">Menunggu emulator</span></td><td>Screenshot 02</td></tr>
-  <tr><td>3</td><td>Sign up: tekan "Register"</td><td>Pindah ke layar Register</td><td><span class="pill pending">Menunggu emulator</span></td><td>Screenshot 04</td></tr>
-  <tr><td>4</td><td>Isi nama lengkap, username, password lalu tekan "Register"</td><td>Masuk Home, sapaan memakai nama lengkap, back stack dibersihkan</td><td><span class="pill pending">Menunggu emulator</span></td><td>Screenshot 05 + tombol back keluar aplikasi</td></tr>
-  <tr><td>5</td><td>Home: amati daftar menu</td><td>5 kartu menu sesuai wireframe lengkap dengan harga</td><td><span class="pill pending">Menunggu emulator</span></td><td>Screenshot 05 (5 item terlihat)</td></tr>
-  <tr><td>6</td><td>Alur Login (dari Sign up tekan "Login", isi field, tekan "Login")</td><td>Masuk Home dengan sapaan memakai username</td><td><span class="pill pending">Menunggu emulator</span></td><td>Screenshot 03</td></tr>
-  <tr><td>7</td><td>Tab Order: isi nama, alamat, patokan, tekan "Order dan Kirim"</td><td>Pindah ke Konfirmasi Pesanan</td><td><span class="pill pending">Menunggu emulator</span></td><td>Screenshot 07</td></tr>
-  <tr><td>8</td><td>Konfirmasi: periksa pesan sukses dan ringkasan alamat</td><td>Nama + alamat + patokan yang barusan diisi tampil di kartu ringkasan</td><td><span class="pill pending">Menunggu emulator</span></td><td>Screenshot 08</td></tr>
-  <tr><td>9</td><td>Tekan "Oke"</td><td>Kembali ke Home, tab Home aktif (bukan tab Order)</td><td><span class="pill pending">Menunggu emulator</span></td><td>Amati tab aktif setelah kembali</td></tr>
-  <tr><td>10</td><td>Tab Profile: ubah nama, tekan "Save"</td><td>Toast "Profil tersimpan", sapaan Home ikut berubah</td><td><span class="pill pending">Menunggu emulator</span></td><td>Screenshot 06 + cek sapaan Home</td></tr>
-</table>
+  <tr><td>1</td><td>Buka aplikasi (SplashActivity)</td><td>Logo kopi, judul "Kopi dan Nyemil", tagline, tombol "Start now"</td><td><span class="pill ok">Lulus</span> sesuai</td><td>Screenshot 01</td></tr>
+  <tr><td>2</td><td>Tekan "Start now" (atau tunggu 3 detik)</td><td>Pindah ke layar Sign up</td><td><span class="pill ok">Lulus</span> tanpa disentuh, layar pindah ke SignupActivity setelah sekitar 3 detik</td><td>Screenshot 02 + <code>dumpsys activity</code></td></tr>
+  <tr><td>3</td><td>Sign up: tekan "Register"</td><td>Pindah ke layar Register</td><td><span class="pill ok">Lulus</span></td><td>Screenshot 04</td></tr>
+  <tr><td>4</td><td>Isi nama lengkap, username, password lalu tekan "Register"</td><td>Masuk Home, sapaan memakai nama lengkap, back stack dibersihkan</td><td><span class="pill ok">Lulus</span> sapaan "Halo, Ariel Davinsyah!", tombol back dari Home keluar aplikasi</td><td>Screenshot 05 + <code>dumpsys activity</code> setelah back</td></tr>
+  <tr><td>5</td><td>Home: amati daftar menu</td><td>5 kartu menu lengkap dengan harga</td><td><span class="pill ok">Lulus</span> Kopi Susu Gula Aren, Donat Cokelat, Sourdough Loaf, Cappuccino, Matcha Latte</td><td>Screenshot 05</td></tr>
+  <tr><td>6</td><td>Alur Login (dari Sign up tekan "Login", isi field, tekan "Login")</td><td>Masuk Home dengan sapaan memakai username</td><td><span class="pill ok">Lulus</span> sapaan "Halo, arielputra!"</td><td>Screenshot 03 + bukti 06-login-home</td></tr>
+  <tr><td>7</td><td>Tab Order: isi nama, alamat, patokan, tekan "Order dan Kirim"</td><td>Pindah ke Konfirmasi Pesanan</td><td><span class="pill ok">Lulus</span> nama terisi otomatis dari profil</td><td>Screenshot 07</td></tr>
+  <tr><td>8</td><td>Konfirmasi: periksa pesan sukses dan ringkasan alamat</td><td>Nama, alamat, dan patokan yang barusan diisi tampil di kartu ringkasan</td><td><span class="pill ok">Lulus</span></td><td>Screenshot 08</td></tr>
+  <tr><td>9</td><td>Tekan "Oke"</td><td>Kembali ke Home, tab Home aktif (bukan tab Order)</td><td><span class="pill ok">Lulus</span> <code>nav_home selected=true</code></td><td>Bukti 09-setelah-oke + <code>uiautomator dump</code></td></tr>
+  <tr><td>10</td><td>Tab Profile: ubah nama, tekan "Save"</td><td>Toast "Profil tersimpan", sapaan Home ikut berubah</td><td><span class="pill ok">Lulus</span> sapaan berubah jadi "Halo, Ariel Putra!" di Profile dan Home</td><td>Bukti 10-profile-save</td></tr>
+</table></div>
 
 <h3>2.2 Negative path (validasi)</h3>
-<table>
+<div class="tablewrap"><table>
   <tr><th>#</th><th>Langkah / aksi</th><th>Expected</th><th>Hasil aktual</th><th>Cara verifikasi</th></tr>
-  <tr><td>N1</td><td>Login: tekan "Login" dengan semua field kosong</td><td>Error "Username wajib diisi" dan "Password wajib diisi", tetap di layar</td><td><span class="pill pending">Menunggu emulator</span></td><td>Screenshot layar error</td></tr>
-  <tr><td>N2</td><td>Register: tekan "Register" dengan salah satu field kosong</td><td>Error di field kosong, tidak masuk Home</td><td><span class="pill pending">Menunggu emulator</span></td><td>Screenshot layar error</td></tr>
-  <tr><td>N3</td><td>Order: tekan "Order dan Kirim" dengan field kosong</td><td>Error di ketiga field yang kosong, tidak lanjut konfirmasi</td><td><span class="pill pending">Menunggu emulator</span></td><td>Screenshot layar error</td></tr>
-  <tr><td>N4</td><td>Profile: kosongkan nama, tekan "Save"</td><td>Error "Nama wajib diisi", nama lama tetap dipakai</td><td><span class="pill pending">Menunggu emulator</span></td><td>Screenshot layar error</td></tr>
-  <tr><td>N5</td><td>Tekan tombol back fisik di layar Konfirmasi</td><td>Kembali ke aplikasi dengan tab Home aktif</td><td><span class="pill pending">Menunggu emulator</span></td><td>Amati tab aktif</td></tr>
-</table>
+  <tr><td>N1</td><td>Login: tekan "Login" dengan semua field kosong</td><td>Error "Username wajib diisi" dan "Password wajib diisi", tetap di layar</td><td><span class="pill ok">Lulus</span></td><td>Bukti n1-login-kosong</td></tr>
+  <tr><td>N2</td><td>Register: tekan "Register" dengan username kosong</td><td>Error di field kosong, tidak masuk Home</td><td><span class="pill ok">Lulus</span> "Username wajib diisi", tetap di RegisterActivity</td><td>Bukti n2-register-username-kosong</td></tr>
+  <tr><td>N3</td><td>Order: tekan "Order dan Kirim" dengan alamat dan patokan kosong</td><td>Error di field yang kosong, tidak lanjut konfirmasi</td><td><span class="pill ok">Lulus</span> "Alamat wajib diisi" dan "Patokan wajib diisi"</td><td>Bukti n3-order-kosong</td></tr>
+  <tr><td>N4</td><td>Profile: kosongkan nama, tekan "Save"</td><td>Error "Nama wajib diisi", nama lama tetap dipakai</td><td><span class="pill ok">Lulus</span> sapaan tetap "Halo, Ariel Davinsyah!"</td><td>Bukti n4-profile-kosong</td></tr>
+  <tr><td>N5</td><td>Tekan tombol back fisik di layar Konfirmasi</td><td>Kembali ke aplikasi dengan tab Home aktif</td><td><span class="pill ok">Lulus</span> <code>nav_home selected=true</code></td><td>Bukti n5-back-konfirmasi</td></tr>
+</table></div>
 
 <h3>2.3 Edge case</h3>
-<table>
+<div class="tablewrap"><table>
   <tr><th>#</th><th>Situasi</th><th>Expected</th><th>Hasil aktual</th><th>Cara verifikasi</th></tr>
-  <tr><td>E1</td><td>Nama 60 karakter</td><td>Sapaan membungkus rapi, layout tidak pecah</td><td><span class="pill pending">Menunggu emulator</span></td><td>Screenshot Home dengan nama panjang</td></tr>
-  <tr><td>E2</td><td>Rotasi layar saat mengisi form Order</td><td>Teks input bertahan (disimpan sistem), data sesi aman di object terpisah</td><td><span class="pill pending">Menunggu emulator</span></td><td>Rotasi via adb, screenshot</td></tr>
-  <tr><td>E3</td><td>Aplikasi ditutup total lalu dibuka</td><td>Sesi kembali ke awal (dibatasi desain: tanpa database sesuai ketentuan tugas)</td><td><span class="pill pending">Menunggu emulator</span></td><td>Kill + relaunch, screenshot</td></tr>
-</table>
+  <tr><td>E1</td><td>Nama 59 karakter ("Muhammad Ariel Davinsyah Putra Pratama Wijaya Kusumaningrat")</td><td>Sapaan membungkus rapi, layout tidak pecah</td><td><span class="pill ok">Lulus</span> sapaan turun ke 3 baris, kartu menu tetap utuh</td><td>Bukti e1-nama-panjang</td></tr>
+  <tr><td>E2</td><td>Rotasi layar ke landscape saat mengisi form Order</td><td>Tetap di tab Order, teks yang sudah diketik bertahan</td><td><span class="pill no">Gagal</span> sebelum fix: tab Order menyala tapi isi layar Home. <span class="pill ok">Lulus</span> setelah fix: tetap di form Order, alamat "Jl. Rotasi No. 7" bertahan, form bisa di-scroll sampai tombol</td><td>Bukti e2-rotasi-landscape, e2-rotasi-scroll</td></tr>
+  <tr><td>E3</td><td>Aplikasi ditutup paksa (<code>am force-stop</code>) lalu dibuka</td><td>Sesi kembali ke awal (tanpa database sesuai ketentuan tugas)</td><td><span class="pill ok">Lulus</span> mulai dari Splash, lanjut ke Sign up</td><td><code>dumpsys activity</code> setelah relaunch</td></tr>
+</table></div>
 
 <h2>3. Screenshot Bukti</h2>
-<p class="lead">Semua screenshot di bawah adalah slot yang akan diisi begitu emulator bisa menyala. Tidak ada satu pun gambar yang dipalsukan atau digambar ulang sebagai pengganti tangkapan layar asli.</p>
+<p class="lead">Semua gambar adalah tangkapan layar asli dari ponsel (<code>adb shell screencap</code>), tidak diedit. Delapan layar utama juga dipakai di README.</p>
+
+<h3>3.1 Delapan layar utama</h3>
 <div class="shotgrid">
-  <div class="shot"><b>01 Splash</b>docs/screenshots/01-splash.png</div>
-  <div class="shot"><b>02 Sign Up</b>docs/screenshots/02-signup.png</div>
-  <div class="shot"><b>03 Login</b>docs/screenshots/03-login.png</div>
-  <div class="shot"><b>04 Register</b>docs/screenshots/04-register.png</div>
-  <div class="shot"><b>05 Home</b>docs/screenshots/05-home.png</div>
-  <div class="shot"><b>06 Profile</b>docs/screenshots/06-profile.png</div>
-  <div class="shot"><b>07 Order/Alamat</b>docs/screenshots/07-order.png</div>
-  <div class="shot"><b>08 Konfirmasi</b>docs/screenshots/08-confirmation.png</div>
+  <figure class="shot"><img src="../../screenshots/01-splash.png" alt="Layar Splash" width="720" height="1640"><figcaption><b>01 Splash</b></figcaption></figure>
+  <figure class="shot"><img src="../../screenshots/02-signup.png" alt="Layar Sign Up" width="720" height="1640"><figcaption><b>02 Sign Up</b></figcaption></figure>
+  <figure class="shot"><img src="../../screenshots/03-login.png" alt="Layar Login" width="720" height="1640"><figcaption><b>03 Login</b></figcaption></figure>
+  <figure class="shot"><img src="../../screenshots/04-register.png" alt="Layar Register terisi" width="720" height="1640"><figcaption><b>04 Register</b></figcaption></figure>
+  <figure class="shot"><img src="../../screenshots/05-home.png" alt="Layar Home dengan 5 menu" width="720" height="1640"><figcaption><b>05 Home</b></figcaption></figure>
+  <figure class="shot"><img src="../../screenshots/06-profile.png" alt="Layar Profile" width="720" height="1640"><figcaption><b>06 Profile</b></figcaption></figure>
+  <figure class="shot"><img src="../../screenshots/07-order.png" alt="Layar Alamat Pengiriman terisi" width="720" height="1640"><figcaption><b>07 Order / Alamat</b></figcaption></figure>
+  <figure class="shot"><img src="../../screenshots/08-confirmation.png" alt="Layar Konfirmasi Pesanan" width="720" height="1640"><figcaption><b>08 Konfirmasi</b></figcaption></figure>
+</div>
+
+<h3>3.2 Bukti skenario tambahan</h3>
+<p class="lead">Bukti 09, 10, N4, dan E1 diambil sebelum perbaikan label tab, jadi label tab aktif di gambar itu masih pudar. Perilaku yang diuji tidak terpengaruh perbaikan tersebut.</p>
+<div class="shotgrid">
+  <figure class="shot"><img src="images/06-login-home.png" alt="Home setelah login dengan username" width="720" height="1640"><figcaption><b>6 Login ke Home</b>sapaan memakai username</figcaption></figure>
+  <figure class="shot"><img src="images/09-setelah-oke.png" alt="Home setelah menekan Oke" width="720" height="1640"><figcaption><b>9 Setelah Oke</b>tab Home aktif</figcaption></figure>
+  <figure class="shot"><img src="images/10-profile-save.png" alt="Toast profil tersimpan" width="720" height="1640"><figcaption><b>10 Profile Save</b>toast + sapaan berubah</figcaption></figure>
+  <figure class="shot"><img src="images/n1-login-kosong.png" alt="Error login kosong" width="720" height="1640"><figcaption><b>N1 Login kosong</b></figcaption></figure>
+  <figure class="shot"><img src="images/n2-register-username-kosong.png" alt="Error username kosong saat register" width="720" height="1640"><figcaption><b>N2 Register</b>username kosong</figcaption></figure>
+  <figure class="shot"><img src="images/n3-order-kosong.png" alt="Error alamat dan patokan kosong" width="720" height="1640"><figcaption><b>N3 Order kosong</b></figcaption></figure>
+  <figure class="shot"><img src="images/n4-profile-kosong.png" alt="Error nama kosong di profile" width="720" height="1640"><figcaption><b>N4 Profile kosong</b></figcaption></figure>
+  <figure class="shot"><img src="images/n5-back-konfirmasi.png" alt="Home setelah back dari konfirmasi" width="720" height="1640"><figcaption><b>N5 Back</b>dari Konfirmasi</figcaption></figure>
+  <figure class="shot"><img src="images/e1-nama-panjang.png" alt="Sapaan dengan nama 59 karakter" width="720" height="1640"><figcaption><b>E1 Nama panjang</b></figcaption></figure>
+  <figure class="shot wide"><img src="images/e2-rotasi-landscape.png" alt="Form Order dalam posisi landscape" width="1640" height="720"><figcaption><b>E2 Rotasi</b>setelah fix: tetap di Order, isi bertahan</figcaption></figure>
+  <figure class="shot wide"><img src="images/e2-rotasi-scroll.png" alt="Form Order landscape di-scroll ke tombol" width="1640" height="720"><figcaption><b>E2 Scroll</b>tombol tetap terjangkau</figcaption></figure>
 </div>
 
 <h2>4. Katalog Regresi (bug yang pernah di-fix)</h2>
-<table>
-  <tr><th>Pemicu</th><th>Gejala</th><th>Root cause</th><td>Expected setelah fix</th><th>Cara reproduce (sebelum fix)</th></tr>
+<p class="lead">Tiap baris adalah bug nyata yang pernah muncul. Kolom terakhir menjelaskan cara memunculkannya lagi, supaya bisa dicek tidak terulang.</p>
+<div class="tablewrap"><table>
+  <tr><th>Pemicu</th><th>Gejala</th><th>Root cause</th><th>Expected setelah fix</th><th>Cara reproduce (sebelum fix)</th></tr>
   <tr>
     <td>Build pertama <code>assembleDebug</code></td>
     <td><code>BUILD FAILED</code> pada task <code>processDebugResources</code></td>
-    <td>Layout <code>activity_main.xml</code> memakai attribute <code>app:itemActiveIndicatorTint</code> yang tidak ada di Material Components; nama yang benar adalah styling lewat <code>itemActiveIndicatorStyle</code></td>
+    <td>Layout <code>activity_main.xml</code> memakai attribute <code>app:itemActiveIndicatorTint</code> yang tidak ada di Material Components; cara yang benar adalah styling lewat <code>itemActiveIndicatorStyle</code></td>
     <td>Build lulus, tab aktif bottom nav tampil sebagai pil gelap</td>
-    <td><code>git checkout 710ac29 -- app/src/main/res/layout/activity_main.xml</code> lalu jalankan <code>gradlew.bat assembleDebug</code></td>
+    <td><code>git checkout 82dc6b2 -- app/src/main/res/layout/activity_main.xml</code> lalu jalankan <code>gradlew.bat assembleDebug</code> (fix ada di <code>0473378</code>)</td>
   </tr>
-</table>
+  <tr>
+    <td>Skenario E2: putar layar saat berada di tab Order atau Profile</td>
+    <td>Bottom nav menyalakan tab Order, tapi isi layar menampilkan Home. Pengguna kebingungan karena form yang sedang diisi seperti hilang</td>
+    <td><code>MainActivity.onCreate</code> selalu menyiapkan ulang fragment dan memaksa <code>selectedItemId = nav_home</code>. Saat activity dibuat ulang karena rotasi, bottom nav memulihkan pilihannya sendiri (Order) tanpa memanggil listener, sementara fragment yang tampil sudah dipaksa ke Home</td>
+    <td>Inisialisasi hanya saat <code>savedInstanceState == null</code>. Setelah rotasi, tab dan isi layar tetap Order, teks form bertahan</td>
+    <td>Buka tab Order, isi alamat, lalu <code>adb shell settings put system accelerometer_rotation 0</code> dan <code>adb shell settings put system user_rotation 1</code></td>
+  </tr>
+  <tr>
+    <td>Melihat bottom nav di layar mana pun</td>
+    <td>Label tab yang aktif ("Home", "Order", "Profile") hampir tidak terlihat</td>
+    <td>Selector <code>tab_item.xml</code> memberi warna putih saat terpilih untuk ikon <b>dan</b> label. Di Material 3 pil gelap hanya membungkus ikon, jadi label putih jatuh di atas latar putih</td>
+    <td>Label memakai selector baru <code>tab_label.xml</code> (espresso saat aktif, abu saat tidak). Ikon tetap putih di atas pil</td>
+    <td>Kembalikan <code>app:itemTextColor="@color/tab_item"</code> di <code>activity_main.xml</code>, build, lalu lihat tab aktif</td>
+  </tr>
+</table></div>
 
-<h2>5. Ringkasan Audit Keamanan</h2>
-<p class="lead">Audit penuh dijalankan oleh agent keamanan sebelum commit pertama. Ringkasannya:</p>
+<h3>Catatan UX (tidak diubah)</h3>
 <div class="card">
   <ul>
-    <li><b>Tidak ada temuan tinggi maupun sedang.</b> Aplikasi tanpa izin (termasuk tanpa INTERNET), tanpa penyimpanan data, hanya SplashActivity yang exported (wajib sebagai launcher).</li>
-    <li><b>Bersih dari rahasia:</b> tidak ada API key/token/password yang tertanam; tidak ada path absolut mesin yang ikut ter-commit; <code>.github-account.md</code> (penunjuk akun lokal) terbukti ter-ignore lewat <code>git status --ignored</code>.</li>
-    <li><b>Dependency:</b> core-ktx 1.16.0, appcompat 1.7.0, material 1.12.0, constraintlayout 2.2.1 dicek terhadap CVE per November 2026, tidak ada yang menimpa. Plugin Kotlin dinaikkan ke 2.4.21 untuk menutup CVE-2026-53914 (build-time, severity rendah pada konteks lokal) dan terbukti build lulus.</li>
+    <li><b>Pesan error tidak hilang saat field diisi.</b> Di Login, Register, Order, dan Profile, tulisan merah "... wajib diisi" baru hilang setelah tombol ditekan lagi, bukan saat pengguna mulai mengetik. Ini konsisten di semua layar dan tidak menghalangi alur, jadi dibiarkan. Kalau mau dirapikan: bersihkan <code>error</code> di <code>doAfterTextChanged</code> tiap field.</li>
+    <li><b>Dialog "Save password to Google?"</b> muncul setelah Register atau Login. Ini fitur autofill bawaan Android, bukan dari aplikasi.</li>
+  </ul>
+</div>
+
+<h2>5. Ringkasan Audit Keamanan</h2>
+<p class="lead">Audit dijalankan oleh agent keamanan sebelum commit pertama dan diulang untuk perubahan di laporan ini.</p>
+<div class="card">
+  <ul>
+    <li><b>Audit awal: tidak ada temuan tinggi maupun sedang.</b> Aplikasi tanpa izin (termasuk tanpa INTERNET), tanpa penyimpanan data, hanya SplashActivity yang exported (wajib sebagai launcher).</li>
+    <li><b>Bersih dari rahasia:</b> tidak ada API key/token/password yang tertanam; <code>.github-account.md</code> (penunjuk akun lokal) ter-ignore.</li>
+    <li><b>Dependency:</b> core-ktx 1.16.0, appcompat 1.7.0, material 1.12.0, constraintlayout 2.2.1, tidak berubah sejak audit awal.</li>
     <li><b>Penguatan yang diterapkan:</b> <code>allowBackup=false</code>, pola <code>*.jks</code>/<code>*.keystore</code>/<code>keystore.properties</code> di .gitignore.</li>
+    <li id="audit-ulang"><b>Audit ulang (10 November 2026):</b> bersih, tanpa temuan Critical, High, Medium, atau Low. Perubahan <code>MainActivity.kt</code> tidak memproses input eksternal, manifest tidak berubah (hanya SplashActivity exported), dependency tidak berubah, <code>app/build/</code> tidak ter-track. Ke-19 screenshot dibuka satu per satu: hanya berisi data dummy, password tersamar, status bar tanpa notifikasi atau akun pribadi, dan tanpa metadata PNG.</li>
   </ul>
 </div>
 
 <h2>6. Coverage Matrix</h2>
-<table>
-  <tr><th>Layar / varian</th><th>Build</th><th>Audit kode</th><th>Verifikasi visual</th></tr>
-  <tr><td>1. Splash / Welcome</td><td><span class="pill ok">OK</span></td><td><span class="pill ok">OK</span></td><td><span class="pill pending">menunggu emulator</span></td></tr>
-  <tr><td>2. Sign Up</td><td><span class="pill ok">OK</span></td><td><span class="pill ok">OK</span></td><td><span class="pill pending">menunggu emulator</span></td></tr>
-  <tr><td>3. Login</td><td><span class="pill ok">OK</span></td><td><span class="pill ok">OK</span></td><td><span class="pill pending">menunggu emulator</span></td></tr>
-  <tr><td>4. Register</td><td><span class="pill ok">OK</span></td><td><span class="pill ok">OK</span></td><td><span class="pill pending">menunggu emulator</span></td></tr>
-  <tr><td>5. Home + 5 item menu</td><td><span class="pill ok">OK</span></td><td><span class="pill ok">OK</span></td><td><span class="pill pending">menunggu emulator</span></td></tr>
-  <tr><td>6. Profile</td><td><span class="pill ok">OK</span></td><td><span class="pill ok">OK</span></td><td><span class="pill pending">menunggu emulator</span></td></tr>
-  <tr><td>7. Alamat Pengiriman (Order)</td><td><span class="pill ok">OK</span></td><td><span class="pill ok">OK</span></td><td><span class="pill pending">menunggu emulator</span></td></tr>
-  <tr><td>8. Konfirmasi Pesanan</td><td><span class="pill ok">OK</span></td><td><span class="pill ok">OK</span></td><td><span class="pill pending">menunggu emulator</span></td></tr>
-  <tr><td>Bottom navigation 3 tab</td><td><span class="pill ok">OK</span></td><td><span class="pill ok">OK</span></td><td><span class="pill pending">menunggu emulator</span></td></tr>
-</table>
+<div class="tablewrap"><table>
+  <tr><th>Layar / varian</th><th>Build</th><th>Audit kode</th><th>Verifikasi visual (ponsel)</th></tr>
+  <tr><td>1. Splash / Welcome</td><td><span class="pill ok">OK</span></td><td><span class="pill ok">OK</span></td><td><span class="pill ok">OK</span></td></tr>
+  <tr><td>2. Sign Up</td><td><span class="pill ok">OK</span></td><td><span class="pill ok">OK</span></td><td><span class="pill ok">OK</span></td></tr>
+  <tr><td>3. Login</td><td><span class="pill ok">OK</span></td><td><span class="pill ok">OK</span></td><td><span class="pill ok">OK</span></td></tr>
+  <tr><td>4. Register</td><td><span class="pill ok">OK</span></td><td><span class="pill ok">OK</span></td><td><span class="pill ok">OK</span></td></tr>
+  <tr><td>5. Home + 5 item menu</td><td><span class="pill ok">OK</span></td><td><span class="pill ok">OK</span></td><td><span class="pill ok">OK</span></td></tr>
+  <tr><td>6. Profile</td><td><span class="pill ok">OK</span></td><td><span class="pill ok">OK</span></td><td><span class="pill ok">OK</span></td></tr>
+  <tr><td>7. Alamat Pengiriman (Order)</td><td><span class="pill ok">OK</span></td><td><span class="pill ok">OK</span></td><td><span class="pill ok">OK</span></td></tr>
+  <tr><td>8. Konfirmasi Pesanan</td><td><span class="pill ok">OK</span></td><td><span class="pill ok">OK</span></td><td><span class="pill ok">OK</span></td></tr>
+  <tr><td>Bottom navigation 3 tab</td><td><span class="pill ok">OK</span></td><td><span class="pill ok">OK</span></td><td><span class="pill ok">OK</span> setelah fix label</td></tr>
+  <tr><td>Orientasi portrait</td><td><span class="pill ok">OK</span></td><td><span class="pill ok">OK</span></td><td><span class="pill ok">OK</span></td></tr>
+  <tr><td>Orientasi landscape (form Order)</td><td><span class="pill ok">OK</span></td><td><span class="pill ok">OK</span></td><td><span class="pill ok">OK</span> setelah fix rotasi</td></tr>
+</table></div>
+<p class="lead" style="margin-top:10px">Belum diuji: emulator atau ponsel dengan versi Android lain, layar tablet, dan mode gelap sistem. Pengujian ini memakai satu ponsel Android 12.</p>
 
-<footer>Laporan ini hanya memuat klaim yang punya bukti. Bagian yang belum terverifikasi diberi tanda oranye secara eksplisit, tidak disamarkan. · 9 November 2026</footer>
+<footer>Laporan ini hanya memuat klaim yang punya bukti. Yang belum diuji disebutkan terang-terangan di atas. · 10 November 2026</footer>
 </div>
 </body>
 </html>

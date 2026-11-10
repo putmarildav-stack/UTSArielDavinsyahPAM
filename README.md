@@ -36,6 +36,8 @@ Aplikasi mobile pemesanan kopi dan camilan, dibuat sebagai tugas UTS mata kuliah
 |:---:|:---:|:---:|:---:|
 | ![Home](docs/screenshots/05-home.png) | ![Profile](docs/screenshots/06-profile.png) | ![Alamat](docs/screenshots/07-order.png) | ![Konfirmasi](docs/screenshots/08-confirmation.png) |
 
+*Screenshot diambil langsung dari ponsel Android fisik (TECNO LG7n, Android 12) memakai data dummy.*
+
 *Dokumentasi desain dan alur lengkap tersedia di [docs/kopi-dan-nyemil/index.html](docs/kopi-dan-nyemil/index.html). Laporan pengujian ada di [docs/reports/kopi-dan-nyemil/index.html](docs/reports/kopi-dan-nyemil/index.html).*
 
 ## 🛠 Teknologi yang Digunakan

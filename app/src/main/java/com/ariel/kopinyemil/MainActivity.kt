@@ -20,11 +20,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Buat ketiga fragment sekali di awal supaya bisa saling disembunyikan
-        tampilkanFragment(TAG_HOME)
-        tampilkanFragment(TAG_ORDER)
-        tampilkanFragment(TAG_PROFILE)
-
         binding.bottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_home -> tampilkanFragment(TAG_HOME)
@@ -33,7 +28,17 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
-        binding.bottomNav.selectedItemId = R.id.nav_home
+
+        // Hanya saat pertama dibuka. Saat activity dibuat ulang (misalnya layar
+        // diputar), FragmentManager dan bottom nav memulihkan tab aktif sendiri;
+        // memaksa ke Home di sini membuat isi layar dan tab yang menyala tidak cocok.
+        if (savedInstanceState == null) {
+            // Buat ketiga fragment sekali di awal supaya bisa saling disembunyikan
+            tampilkanFragment(TAG_HOME)
+            tampilkanFragment(TAG_ORDER)
+            tampilkanFragment(TAG_PROFILE)
+            binding.bottomNav.selectedItemId = R.id.nav_home
+        }
     }
 
     override fun onResume() {
