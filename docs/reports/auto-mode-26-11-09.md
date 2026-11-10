@@ -47,8 +47,8 @@ Ringkasan keputusan dan kejadian:
 | Commit | Isi |
 |---|---|
 | `94fc9c7` (bawaan user) | README awal |
-| `710ac29` | feat: implementasi lengkap aplikasi + design brief + README (audit keamanan lulus sebelum commit) |
-| `f2fbb9d` | fix: ganti `itemActiveIndicatorTint` dengan `itemActiveIndicatorStyle` (bug build), build terverifikasi |
+| `82dc6b2` | feat: implementasi lengkap aplikasi + design brief + README (audit keamanan lulus sebelum commit) |
+| `0473378` | fix: ganti `itemActiveIndicatorTint` dengan `itemActiveIndicatorStyle` (bug build), build terverifikasi |
 
 Semua sudah ter-push ke `origin/main` repo publik `putmarildav-stack/UTSArielDavinsyahPAM`. Laporan E2E HTML ada di `docs/reports/kopi-dan-nyemil/index.html` dengan status jujur per skenario.
 
